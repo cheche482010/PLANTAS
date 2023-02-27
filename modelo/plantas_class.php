@@ -24,6 +24,8 @@ class Plantas_Modelo extends Modelo
     {$this->SQL = $SQL;}
     public function _Tipo_(int $tipo): void
     {$this->tipo = $tipo;}
+    public function _Datos_(array $datos): void
+    {$this->datos = $datos;}
 
     public function Get()
     {
@@ -66,4 +68,5 @@ class Plantas_Modelo extends Modelo
     {
         return "SELECT p.cedula_persona, p.fecha_nacimiento FROM personas p WHERE p.estado = 1 ORDER BY p.cedula_persona ASC";
     }
+
 }

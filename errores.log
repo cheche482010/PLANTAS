@@ -3721,3 +3721,12 @@ stdClass Object
     [Mensaje] => SQLSTATE[HY000] [1045] Access denied for user ''@'localhost' (using password: NO)
     [Tipo] => Acceso denegado,  Contraseña de MSQL Incorrecta.
 )
+stdClass Object
+(
+    [Modulo] => ------Plantas------
+    [Fecha] => Lunes , 27 de Febrero del 2023
+    [Hora] => 10:55:31 AM
+    [Archivo] => C:\xampp\htdocs\dashboard\www\PLANTAS\vendor\doctrine\dbal\src\Driver\API\MySQL\ExceptionConverter.php
+    [Linea] => 88
+    [Mensaje] => An exception occurred while executing a query: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ':, estado:)' at line 1
+)
