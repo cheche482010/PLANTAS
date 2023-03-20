@@ -62,7 +62,16 @@ class Plantas_Modelo extends Modelo
 
     private function SQL_01(): string
     {
-        return "prueba";
+        return "SELECT plantas.id, plantas.nombre_comun, plantas.nombre_cientifico
+        FROM plantas 
+        JOIN relaciones ON plantas.id = relaciones.planta_id
+        JOIN caracteristicas ON relaciones.caracteristica_id = caracteristicas.id
+        WHERE plantas.habitat_id = $habitat_id AND caracteristicas.$caracteristica = $valor";
+    }
+
+    private function SQL_02(): string
+    {
+        return "SELECT p.* FROM plantas p JOIN relaciones r ON p.id = r.planta_id JOIN caracteristicas c ON r.caracteristica_id = c.id WHERE p.habitat_id = $habitat AND c.nombre = $characteristic";
     }
 
 }
