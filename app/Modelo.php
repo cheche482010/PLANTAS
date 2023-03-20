@@ -34,7 +34,6 @@ class Modelo extends BASE_DATOS
     // =========================================
     protected function Capturar_Error($e,$modulo)
     {   
-        $this->conexion->rollBack(); #Revierte una transacción
         $error_log          = new stdClass();
         $error_log->Modulo  = "------".$modulo."------";
         $error_log->Fecha   = $GLOBALS['fecha_larga'];

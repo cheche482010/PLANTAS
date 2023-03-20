@@ -39,16 +39,12 @@ class Plantas_Modelo extends Modelo
         try {
             switch ($this->tipo) {
                 case '0': #tipo 0 trae consultas de la bd retorna a un array con los datos
-                    $this->conexion->beginTransaction(); # Inicia una transacción
                     $this->resultado = $this->conexion->executeQuery($this->sentencia)->fetchAllAssociative();
-                    $this->conexion->commit();
                     $this->Manager()->close();
                     return $this->resultado;
                     break;
                 case '1': #tipo 1 ejecuta un INSERT , UPDATE, DELETE  retorna a true (si no hay falla)
-                    $this->conexion->beginTransaction();
                     $this->DBAL = $this->conexion->executeUpdate($this->sentencia, $this->datos);
-                    $this->conexion->commit();
                     $this->Manager()->close();
                     return $this->DBAL > 0;
                     return true;
@@ -66,7 +62,7 @@ class Plantas_Modelo extends Modelo
 
     private function SQL_01(): string
     {
-        return "SELECT p.cedula_persona, p.fecha_nacimiento FROM personas p WHERE p.estado = 1 ORDER BY p.cedula_persona ASC";
+        return "prueba";
     }
 
 }
