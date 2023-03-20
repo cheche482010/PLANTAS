@@ -23,12 +23,12 @@ final class Iniciar_Sistema
 
         if (empty($this->url[0])) {
             require_once 'controlador/plantas_controlador.php';
-            $this->controlador = new Plantas_Controlador();
+            $this->controlador = new Plantas();
             $this->controlador->Cargar_Modelo('plantas');
             $this->controlador->Cargar_Vistas();
         } else {
             require_once $this->archivo_controlador;
-            $this->nombre_controlador = ucwords($this->url[0]) . '_Controlador';
+            $this->nombre_controlador = ucwords($this->url[0]);
             $this->controlador = new $this->nombre_controlador;
             $this->controlador->Cargar_Modelo($this->url[0]);
             $N_parametors = sizeof($this->url);

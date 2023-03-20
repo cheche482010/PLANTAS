@@ -44,4 +44,8 @@
     @import url(<?php echo constant('URL') ?>config/scss/icons/material-design-iconic-font/css/materialdesignicons.min.css);
     </style>
     
+    <script>
+        const BASE_URL = 'http://localhost/dashboard/www/PLANTAS/';
+        typeof BASE_URL;
+    </script>
 </head>

@@ -1,11 +1,15 @@
 <?php
 
-class Plantas_Controlador extends Controlador
+class Plantas extends Controlador
 {
 
     public function __construct()
     {
         parent::__construct();
+    }
+
+    public function Consulta(){
+        
     }
 
     public function limitedDFS($habitat, $characteristics, $current_depth, $max_depth, $plants_found, $modelo)

@@ -1,4 +1,5 @@
 <?php include (call."Inicio.php"); ?>
+
         <!-- Contenido de la pagina -->
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
@@ -28,7 +29,24 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        Iniciar contenido de la pagina
+                    <table id="example1" class="table table-bordered  table-hover">
+                    <thead>
+                        <tr>
+                            <th>nombre</th>
+                            <th>opcion</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    
+                
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>nombre</th>
+                            <th>opcion</th>
+                        </tr>
+                    </tfoot>
+                </table>
                     </div>
                     <!-- /.card-body -->
                     <div class="card-footer">
@@ -43,4 +61,18 @@
             <!-- /.content -->
         </div>
         <!-- /.content-wrapper -->
-<?php include (call."Fin.php"); ?>
+        
+    <footer class="main-footer"> 
+        <strong>
+            &copy; Reino Plantae <?php echo "2021";echo "-".date('Y') ?> .
+        </strong>
+        <div class="float-right d-none d-sm-inline-block">
+            <b>Version</b> 4.0
+        </div>
+    </footer>
+    </main>
+    
+    <?php include (call."Script.php"); ?>
+    <script type="text/javascript" src="<?php echo constant('URL') ?>vista/inicio/js/plantas-cosulta.js"></script>
+</body>
+</html>
