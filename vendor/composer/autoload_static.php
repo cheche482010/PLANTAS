@@ -19,6 +19,7 @@ class ComposerStaticInit2a8b9cfa11dbcd502b3063f9f8235c8c
         '709248c3c42e6e199a15ee82b046c917' => __DIR__ . '/../..' . '/app/Base_Datos.php',
         'a2c9b60a31662db3fa324e21415a4936' => __DIR__ . '/../..' . '/app/Config.php',
         '87fbf896c2e050df8a34c5a57cdb1f51' => __DIR__ . '/../..' . '/app/App.php',
+        '4184043682d9d9fa2338bcc4f68588eb' => __DIR__ . '/../..' . '/app/CRUD.php',
         '1fec60ba75ef50468f070154edb485da' => __DIR__ . '/../..' . '/app/Modelo.php',
         '0be03f91d5c2966ec1ffc960daf1f183' => __DIR__ . '/../..' . '/app/Vista.php',
         '17998c6198cc7334d84e7abacdcdd929' => __DIR__ . '/../..' . '/app/Controlador.php',
@@ -222,8 +223,10 @@ class ComposerStaticInit2a8b9cfa11dbcd502b3063f9f8235c8c
     );
 
     public static $classMap = array (
+        'App\\Modelo\\Entidad\\Plantas_Entidad' => __DIR__ . '/../..' . '/modelo/entidad/plantas.php',
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
         'BASE_DATOS' => __DIR__ . '/../..' . '/app/Base_Datos.php',
+        'CRUD' => __DIR__ . '/../..' . '/app/CRUD.php',
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'Controlador' => __DIR__ . '/../..' . '/app/Controlador.php',
         'Doctrine\\Common\\Annotations\\Annotation' => __DIR__ . '/..' . '/doctrine/annotations/lib/Doctrine/Common/Annotations/Annotation.php',
@@ -1142,7 +1145,6 @@ class ComposerStaticInit2a8b9cfa11dbcd502b3063f9f8235c8c
         'JsonException' => __DIR__ . '/..' . '/symfony/polyfill-php73/Resources/stubs/JsonException.php',
         'Metodos_BD' => __DIR__ . '/../..' . '/app/Base_Datos.php',
         'Modelo' => __DIR__ . '/../..' . '/app/Modelo.php',
-        'Modelo\\Entidad\\Plantas_Entidad' => __DIR__ . '/../..' . '/modelo/entidad/plantas.php',
         'Normalizer' => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer/Resources/stubs/Normalizer.php',
         'PhpToken' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/PhpToken.php',
         'Plantas_Controlador' => __DIR__ . '/../..' . '/controlador/plantas_controlador.php',

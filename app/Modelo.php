@@ -14,6 +14,7 @@ class Modelo extends BASE_DATOS
     {
         parent::__construct();
     }
+    
     public function Desconectar_BD()
     {
         return $this->conexion->close();
@@ -31,6 +32,7 @@ class Modelo extends BASE_DATOS
     {
          $this->crud = $crud;
     }
+
     // =========================================
     protected function Capturar_Error($e,$modulo)
     {   

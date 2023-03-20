@@ -6,8 +6,10 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'App\\Modelo\\Entidad\\Plantas_Entidad' => $baseDir . '/modelo/entidad/plantas.php',
     'Attribute' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
     'BASE_DATOS' => $baseDir . '/app/Base_Datos.php',
+    'CRUD' => $baseDir . '/app/CRUD.php',
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
     'Controlador' => $baseDir . '/app/Controlador.php',
     'Doctrine\\Common\\Annotations\\Annotation' => $vendorDir . '/doctrine/annotations/lib/Doctrine/Common/Annotations/Annotation.php',
@@ -926,7 +928,6 @@ return array(
     'JsonException' => $vendorDir . '/symfony/polyfill-php73/Resources/stubs/JsonException.php',
     'Metodos_BD' => $baseDir . '/app/Base_Datos.php',
     'Modelo' => $baseDir . '/app/Modelo.php',
-    'Modelo\\Entidad\\Plantas_Entidad' => $baseDir . '/modelo/entidad/plantas.php',
     'Normalizer' => $vendorDir . '/symfony/polyfill-intl-normalizer/Resources/stubs/Normalizer.php',
     'PhpToken' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/PhpToken.php',
     'Plantas_Controlador' => $baseDir . '/controlador/plantas_controlador.php',

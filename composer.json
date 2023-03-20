@@ -22,7 +22,7 @@
             "Prueba\\": "tests/",
             "Traits\\": "traits/"
         },
-        "files": [ "app/Base_Datos.php","app/Config.php", "app/App.php",  "app/Modelo.php", "app/Vista.php", "app/Controlador.php"]
+        "files": [ "app/Base_Datos.php","app/Config.php", "app/App.php", "app/CRUD.php",  "app/Modelo.php", "app/Vista.php", "app/Controlador.php"]
     },
     "autoload-dev": {
         "classmap": ["app/", "controlador/",  "modelo/"],

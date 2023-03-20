@@ -18,6 +18,7 @@ return array(
     '709248c3c42e6e199a15ee82b046c917' => $baseDir . '/app/Base_Datos.php',
     'a2c9b60a31662db3fa324e21415a4936' => $baseDir . '/app/Config.php',
     '87fbf896c2e050df8a34c5a57cdb1f51' => $baseDir . '/app/App.php',
+    '4184043682d9d9fa2338bcc4f68588eb' => $baseDir . '/app/CRUD.php',
     '1fec60ba75ef50468f070154edb485da' => $baseDir . '/app/Modelo.php',
     '0be03f91d5c2966ec1ffc960daf1f183' => $baseDir . '/app/Vista.php',
     '17998c6198cc7334d84e7abacdcdd929' => $baseDir . '/app/Controlador.php',

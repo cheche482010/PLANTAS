@@ -15,7 +15,10 @@ final class Iniciar_Sistema
         $this->url = isset($_GET['url']) ? $_GET['url'] : null;
         $this->url = rtrim($this->url, '/');
         $this->url = explode('/', $this->url);
-
+        set_error_handler(function($errno, $errstr, $errfile, $errline) {
+            $log = date('[Y-m-d H:i:s]') . " Error $errno: $errstr en $errfile:$errline\n";
+            error_log($log, 3, 'errores.log');
+        });
         $this->archivo_controlador = 'controlador/' . strtolower($this->url[0]) . '_controlador.php';
 
         if (empty($this->url[0])) {
