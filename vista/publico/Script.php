@@ -1,9 +1,6 @@
 <!-- ============================================================== -->
 <!-- Javascript  -->
 <!-- ============================================================= -->
-<!-- SCRIPT PROPIOS-->
-<script src="<?php echo constant('URL')?>config/js/news/Alertas.js"></script> 
-
 <!-- Bootstrap -->
 <script src="<?php echo constant('URL')?>config/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="<?php echo constant('URL')?>config/plugins/bootstrap/js/tether.min.js"></script>

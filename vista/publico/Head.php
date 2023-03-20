@@ -14,11 +14,11 @@
     <meta http-equiv='pragma' content='no-cache'>
     <!--=======================Titolu del Sistema============================ -->
     <title id="page-title">
-        C.C Prados de Occidente
+        Reino Plantae
     </title>
     <!-- ============================Estilos============================ -->
     <!-- icon CSS -->
-    <link rel="shortcut icon" type="imagen/x-icon" href="<?php echo constant('URL') ?>config/img/web/navigation.png">
+    
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="<?php echo constant('URL') ?>config/plugins/fontawesome-free/css/all.min.css">
     <!-- overlayScrollbars -->
@@ -35,7 +35,8 @@
 
     <!-- jquery -->
     <script src="<?php echo constant('URL') ?>config/plugins/jquery/jquery.min.js"></script>
-
+    <script src="<?php echo constant('URL')?>config/js/vue.min.js"></script>
+    <script type="text/javascript" src="<?php echo constant('URL')?>config/js/email.min.js"></script>
     <style>
     @import url(<?php echo constant('URL') ?>config/scss/icons/font-awesome/css/font-awesome.min.css);
     @import url(<?php echo constant('URL') ?>config/scss/icons/simple-line-icons/css/simple-line-icons.css);
@@ -43,5 +44,4 @@
     @import url(<?php echo constant('URL') ?>config/scss/icons/material-design-iconic-font/css/materialdesignicons.min.css);
     </style>
     
-    <script src="<?php echo constant('URL') ?>config/js/news/validacion-generica.js"></script>
 </head>

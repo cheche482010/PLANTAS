@@ -5,7 +5,7 @@
 <!-- ============================================================== -->
 <?php include (call."Script.php"); ?>
 
-<?php include (modal."solicitudes_usuarios.php"); ?>
+
 
 </body>
 

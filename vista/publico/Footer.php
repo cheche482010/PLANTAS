@@ -7,4 +7,3 @@
             <b>Version</b> 4.0
         </div>
     </footer>
-    <script src="<?php echo constant('URL')?>config/js/news/dark.js"></script> 
