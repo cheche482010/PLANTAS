@@ -49,6 +49,11 @@ class Plantas_Modelo extends Modelo
                     return $this->DBAL > 0;
                     return true;
                     break;
+                case '2':           
+                    $this->resultado = $this->conexion->executeQuery($this->sentencia, $this->datos)->fetchAllAssociative();
+                    $this->Manager()->close();
+                    return $this->resultado;
+                    break;
                 default: # mensaje error si la peticion fue incorrecta
                     die('[Error 400] => "La Peticion es Incorrecta, solo se permite peticion de tipo 0/1."');
                     break;
@@ -71,7 +76,16 @@ class Plantas_Modelo extends Modelo
 
     private function SQL_02(): string
     {
-        return "SELECT p.* FROM plantas p JOIN relaciones r ON p.id = r.planta_id JOIN caracteristicas c ON r.caracteristica_id = c.id WHERE p.habitat_id = $habitat AND c.nombre = $characteristic";
+        return "SELECT p.* FROM plantas p JOIN relaciones r ON p.id = r.planta_id JOIN caracteristicas c ON r.caracteristica_id = c.id WHERE p.habitat_id = :habitad AND c.nombre = :caracteristicas";
     }
 
+    private function SQL_03(): string
+    {
+        return "SELECT * FROM plantas";
+    }
+
+    private function SQL_04(): string
+    {
+        return "SELECT p.* FROM plantas p JOIN relaciones r ON p.id = r.planta_id JOIN caracteristicas c ON r.caracteristica_id = c.id JOIN plantas_habitats ph ON ph.planta_id = p.id JOIN habitats h ON h.id = ph.habitat_id WHERE h.nombre = :habitad AND c.nombre = :caracteristicas";
+    }
 }
