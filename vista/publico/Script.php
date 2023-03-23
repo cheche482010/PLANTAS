@@ -19,7 +19,7 @@
 	<link rel="stylesheet" href="<?php echo constant('URL')?>config/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
 	<link rel="stylesheet" href="<?php echo constant('URL')?>config/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
 	<!-- DataTables  & Plugins -->
-	<script src="<?php echo constant('URL')?>config/js/news/Data_Tables_Español.js"></script>
+	<script src="<?php echo constant('URL')?>config/js/Data_Tables_Español.js"></script>
 	<script src="<?php echo constant('URL')?>config/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
 	<script src="<?php echo constant('URL')?>config/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
 	<script src="<?php echo constant('URL')?>config/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>

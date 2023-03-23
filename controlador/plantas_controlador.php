@@ -15,10 +15,10 @@ class Plantas extends Controlador
         echo json_encode($this->datos);
     }
 
-    public function limitedDFS($habitad, $caracteristicass, $current_depth, $max_depth, $plants_found)
+    public function limitedDFS($habitad, $caracteristicass, $nodo_actual, $nivel_profundidad, $encontrados)
     {
-        if ($current_depth > $max_depth) {
-            return $plants_found; // Si alcanzamos la profundidad máxima, devolvemos las plantas encontradas hasta el momento.
+        if ($nodo_actual > $nivel_profundidad) {
+            return $encontrados; // Si alcanzamos la profundidad máxima, devolvemos las plantas encontradas hasta el momento.
         }
 
         // Creamos la consulta para obtener las plantas que coincidan con los criterios de búsqueda
@@ -32,74 +32,15 @@ class Plantas extends Controlador
 
         // Agregamos las plantas encontradas al array
         foreach ($result as $row) {
-            $plants_found[] = $row['nombre_comun'];
+            $encontrados[] = $row['nombre_comun'];
         }
 
         // Llamamos a la función recursivamente para buscar plantas más específicas
         foreach ($caracteristicass as $caracteristicas) {
-            $plants_found = $this->limitedDFS($habitad, [$caracteristicas], $current_depth + 1, $max_depth, $plants_found);
+            $encontrados = $this->limitedDFS($habitad, [$caracteristicas], $nodo_actual + 1, $nivel_profundidad, $encontrados);
         }
 
-        return $plants_found;
-    }
-
-    public function limitedBFS($habitad, $caracteristicass, $max_depth)
-    {
-        $plants_found = [];
-
-        // Inicializamos la cola con el nodo raíz
-        $queue = [[$habitad, $caracteristicass, 0]];
-
-        while (!empty($queue)) {
-            // Obtenemos el siguiente nodo de la cola
-            $node            = array_shift($queue);
-            $habitad         = $node[0];
-            $caracteristicass = $node[1];
-            $current_depth   = $node[2];
-
-            // Si hemos alcanzado la profundidad máxima, dejamos de buscar en esta rama
-            if ($current_depth > $max_depth) {
-                continue;
-            }
-
-            // Creamos la consulta para obtener las plantas que coincidan con los criterios de búsqueda
-            $query = "SELECT p.* FROM plantas p JOIN relaciones r ON p.id = r.planta_id JOIN caracteristicas c ON r.caracteristica_id = c.id WHERE p.habitad_id = '$habitad'";
-            foreach ($caracteristicass as $caracteristicas) {
-                $query .= " AND c.nombre = '$caracteristicas'";
-            }
-
-            // Ejecutamos la consulta y obtenemos las plantas
-            $result = mysqli_query($conexion, $query);
-
-            // Agregamos las plantas encontradas al array
-            while ($row = mysqli_fetch_assoc($result)) {
-                $plants_found[] = $row['nombre_comun'];
-            }
-
-            // Obtenemos los hábitats que están conectados al actual
-            $query  = "SELECT DISTINCT h.nombre FROM habitads h JOIN relaciones r ON h.id = r.habitad_id JOIN plantas p ON r.planta_id = p.id WHERE p.habitad_id = '$habitad'";
-            $result = mysqli_query($conexion, $query);
-
-            // Agregamos los nodos de los hábitats conectados a la cola
-            while ($row = mysqli_fetch_assoc($result)) {
-                $next_habitad = $row['nombre'];
-                $queue[]      = [$next_habitad, $caracteristicass, $current_depth + 1];
-            }
-
-            // Obtenemos las características que están conectadas a las actuales
-            foreach ($caracteristicass as $caracteristicas) {
-                $query  = "SELECT DISTINCT c.nombre FROM caracteristicas c JOIN relaciones r ON c.id = r.caracteristica_id JOIN plantas p ON r.planta_id = p.id WHERE p.habitad_id = '$habitad' AND c.nombre != '$caracteristicas'";
-                $result = mysqli_query($conexion, $query);
-
-                // Agregamos los nodos de las características conectadas a la cola
-                while ($row = mysqli_fetch_assoc($result)) {
-                    $next_caracteristicas = $row['nombre'];
-                    $queue[]             = [$habitad, array_merge($caracteristicass, [$next_caracteristicas]), $current_depth + 1];
-                }
-            }
-        }
-
-        return $plants_found;
+        return $encontrados;
     }
 
     public function Cargar_Vistas()
@@ -111,29 +52,140 @@ class Plantas extends Controlador
     {
         $habitad         = "Bosque";
         $caracteristicass = ["Color", "Luz indirecta"];
-        $max_depth       = 3;
-        $current_depth   = 0;
+        $nivel_profundidad       = 3;
+        $nodo_actual   = 0;
 
-        $plants_found = $this->limitedDFS($habitad, $caracteristicass, $current_depth, $max_depth, []);
+        $encontrados = $this->limitedDFS($habitad, $caracteristicass, $nodo_actual, $nivel_profundidad, []);
         // Imprimimos las plantas encontradas
-        foreach ($plants_found as $plant) {
+        foreach ($encontrados as $plant) {
             echo $plant . "<br>";
         }
     }
 
-    public function prueba2()
+    public function Registrar()
     {
-        // Llamamos a la función y especificamos el hábitat, características y profundidad máxima
-        $habitad         = "Bosque";
-        $caracteristicass = "Color";
-        $max_depth       = 3;
+        $this->modelo->_Datos_($_POST['datos']);
+        $this->modelo->_SQL_($_POST['sql']);
+        $this->modelo->_Tipo_(1);
+        echo $this->modelo->Administrar();
+    }
 
-        $plants_found = $this->limitedBFS($habitad, $caracteristicass, $max_depth);
+    public function get_question(){
+        $caracteristicas = $_POST['caracteristicas'];
+        $this->modelo->_Tipo_(0);
+        $this->modelo->_SQL_("SQL_06");
+        $this->datos = $this->modelo->Administrar();
 
-        // Imprimimos las plantas encontradas
-        foreach ($plants_found as $plant) {
-            echo $plant . "<br>";
+        $this->modelo->_SQL_("SQL_03");
+        $plantas = $this->modelo->Administrar();
+        $result = '';
+
+        if($caracteristicas == '' || $caracteristicas == null){
+            $pregunta = $this->datos[array_rand($this->datos)];
+            $result = [
+                'resultados' => 0,
+                'mensaje' => $pregunta['pregunta'],  
+                'id_plantas' => $pregunta['id_plantas'],
+                'resp' => json_encode([])
+            ];
         }
+        else{
+            $preguntas_bd = $this->datos;
+            $coincidencias = '';
+  
+                foreach($caracteristicas as $c){
+                       for($i = 0; $i <= count( $preguntas_bd ) ; $i++ ){
+                           if($c['pregunta'] == $preguntas_bd[$i]['pregunta']){
+                            if (($clave = array_search($preguntas_bd[$i], $preguntas_bd)) !== false) {
+                                unset($preguntas_bd[$clave]);
+                            }
+                            
+                           }
+                       }
+                    }
+
+                    if(count($caracteristicas) == 4 || count($caracteristicas) == 8 || count($caracteristicas) == 12){
+                        $coincidencias = $this->get_coincidencias($caracteristicas);
+                    } 
+
+                    if(count($preguntas_bd) > 0 ){
+                        $pregunta = $preguntas_bd[array_rand($preguntas_bd)];
+                        $result = [
+                            'resultados' => 0,
+                            'mensaje' => $pregunta['pregunta'],  
+                            'id_plantas' => $pregunta['id_plantas'],
+                            'resp' => json_encode($coincidencias) 
+                       ];
+                    }
+                    
+               
+                // if(count($preguntas_bd) == 0){
+                //     $pregunta = $preguntas_bd[array_rand($preguntas_bd)];
+                // }
+
+                // $result = [
+                //     'resultados' => 0,
+                //     'mensaje' => $pregunta['pregunta'],   
+                // ];
+
+                // if(!$existe) {
+                //     $checking = false;
+                //     $result = [
+                //         'resultados' => 0,
+                //         'mensaje' => $pregunta['pregunta'],   
+                //     ];
+                // }
+                // else {
+                //     $pregunta = $this->datos[array_rand($this->datos)];
+                // }
+        }
+        echo json_encode($result);
+        
+    }
+
+    public function get_coincidencias($caracteristicas){
+        $this->modelo->_Tipo_(0);
+        $this->modelo->_SQL_("SQL_03");
+        $plantas = $this->modelo->Administrar();
+        $descartados = [];
+        $plantas_descartadas = [];
+        $coincidencias = [];
+        foreach ($caracteristicas as $c){
+            if($c['respuesta'] == 0){
+                $descartados[] = $c;
+            }
+        }
+
+        foreach($descartados as $d) {
+            $plantas_d = explode('/',$d['id_plantas']);
+            $existe = 0;
+            for($i=0 ; $i<count($plantas_d) ; $i++){
+                for ($j = 0 ;  $j < count($plantas_descartadas) ; $j++){
+                    if($plantas_d[$i] == $plantas_descartadas[$j]){
+                        $existe++;
+                    }
+                }
+                if( $existe == 0 ){
+                    $plantas_descartadas[] = $plantas_d[$i];
+                }
+            }
+        }
+         
+        foreach ( $plantas as $p ){
+            $descartado = false;
+            for($i = 0; $i<count($plantas_descartadas) ; $i++){
+                if($plantas_descartadas[$i] == $p['id_plantas']){
+                    $descartado = true;
+                }
+            }
+
+            if(!$descartado) {
+                $coincidencias[] = $p;
+            }
+        }
+
+        return $coincidencias;
+        
     }
 
 }

@@ -88,4 +88,14 @@ class Plantas_Modelo extends Modelo
     {
         return "SELECT p.* FROM plantas p JOIN relaciones r ON p.id = r.planta_id JOIN caracteristicas c ON r.caracteristica_id = c.id JOIN plantas_habitats ph ON ph.planta_id = p.id JOIN habitats h ON h.id = ph.habitat_id WHERE h.nombre = :habitad AND c.nombre = :caracteristicas";
     }
+
+    private function SQL_05(): string
+    {
+        return "INSERT INTO plantas (nombre_comun, nombre_cientifico, descripcion) VALUES (:nombre_comun, :nombre_cientifico, :descripcion);";
+    }
+
+    private function SQL_06(): string
+    {
+        return "SELECT * FROM preguntas";
+    }
 }
