@@ -79,6 +79,7 @@ class Plantas extends Controlador
         $this->modelo->_SQL_("SQL_03");
         $plantas = $this->modelo->Administrar();
         $result = '';
+        $resultados = 0;
 
         if($caracteristicas == '' || $caracteristicas == null){
             $pregunta = $this->datos[array_rand($this->datos)];
@@ -104,40 +105,24 @@ class Plantas extends Controlador
                        }
                     }
 
-                    if(count($caracteristicas) == 4 || count($caracteristicas) == 8 || count($caracteristicas) == 12){
+                    if((count($caracteristicas) % 3) ==0){
                         $coincidencias = $this->get_coincidencias($caracteristicas);
+                        foreach($coincidencias as $c){
+                            if($c['descripcion'] != ''){
+                                $resultados = 1;
+                            }
+                        }
                     } 
 
                     if(count($preguntas_bd) > 0 ){
                         $pregunta = $preguntas_bd[array_rand($preguntas_bd)];
                         $result = [
-                            'resultados' => 0,
+                            'resultados' => $resultados,
                             'mensaje' => $pregunta['pregunta'],  
                             'id_plantas' => $pregunta['id_plantas'],
                             'resp' => json_encode($coincidencias) 
                        ];
                     }
-                    
-               
-                // if(count($preguntas_bd) == 0){
-                //     $pregunta = $preguntas_bd[array_rand($preguntas_bd)];
-                // }
-
-                // $result = [
-                //     'resultados' => 0,
-                //     'mensaje' => $pregunta['pregunta'],   
-                // ];
-
-                // if(!$existe) {
-                //     $checking = false;
-                //     $result = [
-                //         'resultados' => 0,
-                //         'mensaje' => $pregunta['pregunta'],   
-                //     ];
-                // }
-                // else {
-                //     $pregunta = $this->datos[array_rand($this->datos)];
-                // }
         }
         echo json_encode($result);
         
@@ -147,40 +132,63 @@ class Plantas extends Controlador
         $this->modelo->_Tipo_(0);
         $this->modelo->_SQL_("SQL_03");
         $plantas = $this->modelo->Administrar();
-        $descartados = [];
-        $plantas_descartadas = [];
+        $caracteristicas_planta = [];
         $coincidencias = [];
+        $posible_resultado = '';
         foreach ($caracteristicas as $c){
-            if($c['respuesta'] == 0){
-                $descartados[] = $c;
+            if($c['respuesta'] == 1){
+                $caracteristicas_planta[] = $c;
             }
         }
+        
+        foreach($caracteristicas_planta as $cp){
+             $ids = explode('/',$cp['plantas']);
 
-        foreach($descartados as $d) {
-            $plantas_d = explode('/',$d['id_plantas']);
-            $existe = 0;
-            for($i=0 ; $i<count($plantas_d) ; $i++){
-                for ($j = 0 ;  $j < count($plantas_descartadas) ; $j++){
-                    if($plantas_d[$i] == $plantas_descartadas[$j]){
-                        $existe++;
+             if(count($coincidencias) ==0){
+                for($i = 0; $i < count($ids) ; $i++){
+                    $coincidencias[] = [
+                        'id' => $ids[$i],
+                        'cantidad' => 1
+                    ];
+                }
+             }
+             else{
+                $existe = 0;
+                    for($i = 0; $i < count($ids) ; $i++){
+                        for($n=0; $n<count($coincidencias) ;$n++){
+                            if($ids[$i] == $coincidencias[$n]['id']){
+                                $coincidencias[$n]['cantidad'] = $coincidencias[$n]['cantidad'] + 1;
+                                $existe++;
+                            }
+                        }
+                        if($existe == 0){
+                            $coincidencias[] = [
+                                'id' => $ids[$i],
+                                'cantidad' => 1
+                            ];
+                        }
+                    }
+             }
+
+        }
+        
+        $num_aux=0;
+        foreach($coincidencias as $c){
+            if($c['cantidad'] > $num_aux){ $num_aux = $c['cantidad'];}
+        }
+
+        for( $n=0; $n < count($coincidencias); $n++){
+            if($coincidencias[$n]['cantidad'] == $num_aux){ 
+                if($num_aux > 1 || count($coincidencias) == 1){
+                for($i = 0 ; $i<count($plantas) ; $i++){
+                    if($plantas[$i]['id_plantas'] == $c['id']){
+                        $coincidencias[$n]['descripcion'] = $plantas[$i]['descripcion'];
                     }
                 }
-                if( $existe == 0 ){
-                    $plantas_descartadas[] = $plantas_d[$i];
-                }
             }
-        }
-         
-        foreach ( $plantas as $p ){
-            $descartado = false;
-            for($i = 0; $i<count($plantas_descartadas) ; $i++){
-                if($plantas_descartadas[$i] == $p['id_plantas']){
-                    $descartado = true;
-                }
             }
-
-            if(!$descartado) {
-                $coincidencias[] = $p;
+            else{
+                $coincidencias[$n]['descripcion'] = '';
             }
         }
 
