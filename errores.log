@@ -1,0 +1,47 @@
+stdClass Object
+(
+    [Modulo] => ------Plantas------
+    [Fecha] => Viernes , 24 de Marzo del 2023
+    [Hora] => 06:54:22 PM
+    [Archivo] => C:\xampp\htdocs\dashboard\www\PLANTAS\vendor\doctrine\dbal\src\Driver\API\MySQL\ExceptionConverter.php
+    [Linea] => 88
+    [Mensaje] => An exception occurred while executing a query: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ':id_plantas and p.id_habitats = h.id_habitats' at line 1
+)
+stdClass Object
+(
+    [Modulo] => ------Plantas------
+    [Fecha] => Viernes , 24 de Marzo del 2023
+    [Hora] => 06:57:03 PM
+    [Archivo] => C:\xampp\htdocs\dashboard\www\PLANTAS\vendor\doctrine\dbal\src\Driver\API\MySQL\ExceptionConverter.php
+    [Linea] => 88
+    [Mensaje] => An exception occurred while executing a query: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ':id_plantas and p.id_habitats = h.id_habitats' at line 1
+)
+stdClass Object
+(
+    [Modulo] => ------Plantas------
+    [Fecha] => Viernes , 24 de Marzo del 2023
+    [Hora] => 07:00:16 PM
+    [Archivo] => C:\xampp\htdocs\dashboard\www\PLANTAS\vendor\doctrine\dbal\src\Driver\API\MySQL\ExceptionConverter.php
+    [Linea] => 88
+    [Mensaje] => An exception occurred while executing a query: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ':id_plantas and p.id_habitats = h.id_habitats' at line 1
+)
+stdClass Object
+(
+    [Modulo] => ------Plantas------
+    [Fecha] => Viernes , 24 de Marzo del 2023
+    [Hora] => 10:03:31 PM
+    [Archivo] => C:\xampp\htdocs\dashboard\www\PLANTAS\vendor\doctrine\dbal\src\Driver\API\MySQL\ExceptionConverter.php
+    [Linea] => 88
+    [Mensaje] => An exception occurred while executing a query: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ', , ,
+        , , , , , , , , )' at line 2
+)
+stdClass Object
+(
+    [Modulo] => ------Plantas------
+    [Fecha] => Viernes , 24 de Marzo del 2023
+    [Hora] => 10:04:03 PM
+    [Archivo] => C:\xampp\htdocs\dashboard\www\PLANTAS\vendor\doctrine\dbal\src\Driver\API\MySQL\ExceptionConverter.php
+    [Linea] => 88
+    [Mensaje] => An exception occurred while executing a query: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ', , ,
+        , , , , , , , , )' at line 2
+)

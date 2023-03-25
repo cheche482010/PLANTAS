@@ -57,6 +57,7 @@
 </footer>
 </main>
 <?php include(call . "Script.php"); ?>
+<?php include(call . "regitro.php"); ?>
 <script type="text/javascript" src="<?php echo constant('URL') ?>vista/inicio/js/plantas-cosulta.js"></script>
 <script type="text/javascript" src="<?php echo constant('URL') ?>vista/inicio/js/brain.min.js"></script>
 <style>

@@ -14,6 +14,20 @@ class Plantas_Modelo extends Modelo
     private $sentencia; #sentencia sql que se ejecutara
     private $datos; #datos a ejecutar para enviar a la bd
 
+    private $nombre_comun;
+    private $nombre_cientifico;
+    private $familia_cientifica;
+    private $descripcion;
+    private $tamanio;
+    private $forma;
+    private $textura;
+    private $color;
+    private $hojas; 
+    private $tronco;
+    private $flores;
+    private $id_habitats;
+    private $id;
+
     public $resultado; #resultado de consultas de la bd
 
     public function __construct()
@@ -26,6 +40,35 @@ class Plantas_Modelo extends Modelo
     {$this->tipo = $tipo;}
     public function _Datos_(array $datos): void
     {$this->datos = $datos;}
+
+    public function _ID_(int $id): void
+    {$this->id = $id;}
+
+    public function _DatosPlantas_(array $info) : void{
+        $this->nombre_comun = $info['nombre_comun'];
+        
+        $this->nombre_cientifico = $info['nombre_cientifico'];
+        
+        $this->descripcion = $info['descripcion'];
+        
+        $this->textura = $info['textura'];
+        
+        $this->color = $info['color'];
+        
+        $this->tamanio = $info['tamanio'];
+        
+        $this->hojas = $info['hojas'];
+        
+        $this->tronco = $info['tronco'];
+        
+        $this->flores = $info['flores'];
+        
+        $this->forma = $info['forma'];
+        
+        $this->familia_cientifica = $info['familia_cientifica'];
+        
+        $this->id_habitats = $info['habitat'];
+    }
 
     public function Get()
     {
@@ -91,11 +134,29 @@ class Plantas_Modelo extends Modelo
 
     private function SQL_05(): string
     {
-        return "INSERT INTO plantas (nombre_comun, nombre_cientifico, descripcion) VALUES (:nombre_comun, :nombre_cientifico, :descripcion);";
+        return "INSERT INTO plantas (nombre_comun, nombre_cientifico, familia_cientifica, descripcion, tamaño, forma, textura, color, hojas, tronco, flores, id_habitats) 
+        VALUES (:nombre_comun, :nombre_cientifico, :familia_cientifica,
+        :descripcion, :tamanio, :forma, :textura, :color, :hojas, :tronco, :flores, :id_habitats);";
     }
 
     private function SQL_06(): string
     {
         return "SELECT * FROM preguntas";
+    }
+
+    private function SQL_07(): string
+    {
+        return "SELECT * FROM plantas p, habitats h WHERE p.id_plantas = $this->id and p.id_habitats = h.id_habitats";
+    }
+
+    private function SQL_08(): string
+    {
+        return "INSERT INTO preguntas (pregunta, respuesta,id_plantas) 
+        VALUES (:pregunta,1,:id_plantas);";
+    }
+
+    private function SQL_09(): string
+    {
+        return "UPDATE preguntas SET id_plantas = :id_plantas WHERE id_pregunta = :id_pregunta";
     }
 }

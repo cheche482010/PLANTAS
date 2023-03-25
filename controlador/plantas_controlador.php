@@ -8,67 +8,18 @@ class Plantas extends Controlador
         parent::__construct();
     }
 
-    public function Consulta(){
-        $this->modelo->_Tipo_(0);
-        $this->modelo->_SQL_("SQL_03");
-        $this->datos = $this->modelo->Administrar();
-        echo json_encode($this->datos);
-    }
-
-    public function limitedDFS($habitad, $caracteristicass, $nodo_actual, $nivel_profundidad, $encontrados)
-    {
-        if ($nodo_actual > $nivel_profundidad) {
-            return $encontrados; // Si alcanzamos la profundidad máxima, devolvemos las plantas encontradas hasta el momento.
-        }
-
-        // Creamos la consulta para obtener las plantas que coincidan con los criterios de búsqueda
-        $this->modelo->_SQL_("SQL_04");
-        $this->modelo->_Tipo_(2);
-        $this->modelo->_Datos_([
-            "habitad"        => $habitad,
-            "caracteristicas" => $caracteristicass[0],
-        ]);
-        $result = $this->modelo->Administrar();
-
-        // Agregamos las plantas encontradas al array
-        foreach ($result as $row) {
-            $encontrados[] = $row['nombre_comun'];
-        }
-
-        // Llamamos a la función recursivamente para buscar plantas más específicas
-        foreach ($caracteristicass as $caracteristicas) {
-            $encontrados = $this->limitedDFS($habitad, [$caracteristicas], $nodo_actual + 1, $nivel_profundidad, $encontrados);
-        }
-
-        return $encontrados;
-    }
-
     public function Cargar_Vistas()
-    {
+    {   
         $this->vista->Cargar_Vistas('inicio/index');
     }
 
-    public function prueba()
-    {
-        $habitad         = "Bosque";
-        $caracteristicass = ["Color", "Luz indirecta"];
-        $nivel_profundidad       = 3;
-        $nodo_actual   = 0;
-
-        $encontrados = $this->limitedDFS($habitad, $caracteristicass, $nodo_actual, $nivel_profundidad, []);
-        // Imprimimos las plantas encontradas
-        foreach ($encontrados as $plant) {
-            echo $plant . "<br>";
-        }
-    }
-
-    public function Registrar()
-    {
-        $this->modelo->_Datos_($_POST['datos']);
-        $this->modelo->_SQL_($_POST['sql']);
-        $this->modelo->_Tipo_(1);
-        echo $this->modelo->Administrar();
-    }
+    // public function Registrar()
+    // {
+    //     $this->modelo->_Datos_($_POST['datos']);
+    //     $this->modelo->_SQL_($_POST['sql']);
+    //     $this->modelo->_Tipo_(1);
+    //     echo $this->modelo->Administrar();
+    // }
 
     public function get_question(){
         $caracteristicas = $_POST['caracteristicas'];
@@ -76,8 +27,6 @@ class Plantas extends Controlador
         $this->modelo->_SQL_("SQL_06");
         $this->datos = $this->modelo->Administrar();
 
-        $this->modelo->_SQL_("SQL_03");
-        $plantas = $this->modelo->Administrar();
         $result = '';
         $resultados = 0;
 
@@ -105,7 +54,7 @@ class Plantas extends Controlador
                        }
                     }
 
-                    if((count($caracteristicas) % 3) ==0){
+                    if((count($caracteristicas) % 3) == 0){
                         $coincidencias = $this->get_coincidencias($caracteristicas);
                         foreach($coincidencias as $c){
                             if($c['descripcion'] != ''){
@@ -134,7 +83,6 @@ class Plantas extends Controlador
         $plantas = $this->modelo->Administrar();
         $caracteristicas_planta = [];
         $coincidencias = [];
-        $posible_resultado = '';
         foreach ($caracteristicas as $c){
             if($c['respuesta'] == 1){
                 $caracteristicas_planta[] = $c;
@@ -181,7 +129,7 @@ class Plantas extends Controlador
             if($coincidencias[$n]['cantidad'] == $num_aux){ 
                 if($num_aux > 1 || count($coincidencias) == 1){
                 for($i = 0 ; $i<count($plantas) ; $i++){
-                    if($plantas[$i]['id_plantas'] == $c['id']){
+                    if($plantas[$i]['id_plantas'] == $coincidencias[$n]['id']){
                         $coincidencias[$n]['descripcion'] = $plantas[$i]['descripcion'];
                     }
                 }
@@ -196,4 +144,105 @@ class Plantas extends Controlador
         
     }
 
+
+    public function get_planta(){
+        $id_planta = $_POST['id'];
+        $this->modelo->_Tipo_(0);
+        $this->modelo->_SQL_("SQL_07");
+        $this->modelo->_Id_($id_planta);
+        $plantas = $this->modelo->Administrar();
+        $mensaje = 'Su planta es: '.$plantas[0]['nombre_comun'].' ('.$plantas[0]['nombre_cientifico'].'), ubicada en el habitat '.$plantas[0]['nombre'];
+        echo $mensaje;
+    }
+
+    public function insert_planta(){
+        $this->modelo->_Datos_($_POST['datos']);
+        $this->modelo->_SQL_('SQL_05');
+        $this->modelo->_Tipo_(1);
+        $result = $this->modelo->Administrar();
+        if($result){
+        $this->modelo->_Tipo_(0);
+        $this->modelo->_SQL_("SQL_03");
+        $plantas = $this->modelo->Administrar();
+        $ultima = $plantas[count($plantas) - 1];
+        $this->modelo->_Tipo_(0);
+        $this->modelo->_SQL_("SQL_06");
+        $preguntas_bd =  $this->modelo->Administrar();
+
+        $preguntas[] = [
+            'pregunta' => '¿Su planta es de tamaño '.$ultima['tamaño'].'?',
+            'tipo' => 'tamanio',
+            'id'   => $ultima['id_plantas']
+        ];
+
+        $preguntas[] = [
+            'pregunta' => '¿Su planta tiene forma '.$ultima['forma'].'?',
+            'tipo' => 'forma',
+            'id'   => $ultima['id_plantas']
+        ];
+
+        $preguntas[] = [
+            'pregunta' => '¿Su planta es de textura '.$ultima['textura'].'?',
+            'tipo' => 'textura',
+            'id'   => $ultima['id_plantas']
+        ];
+
+        $preguntas[] = [
+            'pregunta' => '¿Su planta es de color '.$ultima['color'].'?',
+            'tipo' => 'color',
+            'id'   => $ultima['id_plantas']
+        ];
+
+        $preguntas[] = [
+            'pregunta' => '¿La hoja de su planta es '.$ultima['tamaño'].'?',
+            'tipo' => 'hojas',
+            'id'   => $ultima['id_plantas']
+        ];
+
+        $preguntas[] = [
+            'pregunta' => '¿Su planta posee un tronco '.$ultima['tamaño'].'?',
+            'tipo' => 'tronco',
+            'id'   => $ultima['id_plantas']
+        ];
+
+        $preguntas[] = [
+            'pregunta' => '¿Su planta posee flores '.$ultima['flores'].'?',
+            'tipo' => 'flores',
+            'id'   => $ultima['id_plantas']
+        ];
+        
+        foreach($preguntas as $p){
+            $existe = 0;
+            foreach($preguntas_bd as $pbd) {
+                if(strstr($pbd['pregunta'], $p['pregunta'])){
+                    $existe = ['id' => $pbd['id_pregunta'], 'id_plantas' => $pbd['id_plantas']];
+                }
+            }
+
+            if($existe == 0){
+                $this->modelo->_Datos_([
+                    'pregunta' => $p['pregunta'],
+                    'id_plantas' =>$p['id']
+                ]
+            );
+                $this->modelo->_SQL_('SQL_08');
+                $this->modelo->_Tipo_(1);
+                $result = $this->modelo->Administrar();
+                echo $result;
+            }
+            else{
+                $this->modelo->_Datos_([
+                    'id_plantas' =>$existe['id_plantas'].'/'.$p['id'],
+                    'id_pregunta' => $existe['id']
+                ]
+            );
+            $this->modelo->_SQL_('SQL_09');
+            $this->modelo->_Tipo_(1);
+            $result = $this->modelo->Administrar();
+            echo $result;
+            }
+        }
+    }
+
+}
 }
